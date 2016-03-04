@@ -5,6 +5,7 @@ import os
 import pyximport; pyximport.install()
 
 USE_CYTHON = True
+COMPILE = True
 
 def extract_cython(path_in, force=False):
     if not path_in.endswith('.py'):
@@ -28,15 +29,22 @@ def extract_cython(path_in, force=False):
             fobj.write(line + '\n')
 
 def cythonize(func):
-    module_name = func.__module__
-    module = __import__(module_name)
-    path = module.__file__.replace('.pyc', '.py')
-    extract_cython(path)
+    if COMPILE:
+        module_name = func.__module__
+        module = __import__(module_name)
+        path = module.__file__.replace('.pyc', '.py')
+        extract_cython(path)
+        module = __import__(module_name + '_cy')
+        func_cy = getattr(module, func.__name__)
+    else:
+        func_cy = None
     def wrapper(*arg, **kw):
         if USE_CYTHON:
-            module = __import__(func.__module__ + '_cy')
-            func2 = getattr(module, func.__name__)
-            return func2(*arg, **kw)
+            if func_cy is None:
+                raise RuntimeError("module %s has not been compiled"
+                                   "(is the pyorcy.COMPILE set to False?)"
+                                   % func.__module__)
+            return func_cy(*arg, **kw)
         else:
             return func(*arg, **kw)
     return wrapper
