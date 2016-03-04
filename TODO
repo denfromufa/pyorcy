@@ -1,5 +1,9 @@
-- Remove prints.
 - Add a setup.py install.
 - Add unit tests.
 - Replace the clean script by setup.py clean.
-- Try to put the .pyx file together with the built files in ~/.pyxbld.
+
+hesitations
+- Should we use lower case constants instead (USE_CYTHON, COMPILE, etc)?
+- Try to put the .pyx file together with the built files in ~/.pyxbld?
+
+
