@@ -26,7 +26,9 @@ A cython (.pyx) file is extracted from the python file (cf. function
 extract_cython in the pyorcy.py).
 
 This file will differ from the corresponding .py file is two ways;
+
 - the comments starting with '#c ' are uncommented.
+
 - the lines ending with '#p' are commented out.
 
 Getting started
