@@ -1,1 +1,1 @@
-rm *.pyc; rm *.pyx
+rm *.pyc; rm *.pyx; rm -r ~/.pyxbld
