@@ -10,8 +10,11 @@ Pyorcy has 2 purposes:
 
 #. Launch the automatic compilation, triggered by a function decorator.
 
-Check the examples: test.py and compute.py for a quick understanding
+Check the examples: ``test.py`` and ``compute.py`` for a quick understanding
 the mechanism.
+
+Note that pyorcy provides a decorator mechanism which is similar to what numba
+offers.
 
 Mechanism
 ---------
@@ -44,38 +47,31 @@ Put pyorcy.py somewhere in your PYTHONPATH.
 Troubleshooting
 ---------------
 
-If you get
+If you get::
 
-ImportError: Building module compute_cy failed: ['DistutilsPlatformError: Unable to find vcvarsall.bat\n']
+ ImportError: Building module compute_cy failed: ['DistutilsPlatformError: Unable to find vcvarsall.bat\n']
 
-like me, contact me. I have a workaround.
+like me, contact me. I have found a workaround.
 
-Tests
------
+My use case
+-----------
 
-Here is what I get:
+Here is why is pyorcy is important for my work.
 
-#. When runnining for the first time (or removing the compiled files
-   from ~/.pyxbld)::
+I work in a team of developers (engineers, mathematicians). They have
+learn python but not cython. Recently I have proposed a library with
+some cython code. This added dependency has created resistance to the
+acceptance of my code. Firstly, we met problems with compatibility
+with Cython, Anaconda and virtual environments. Secondly, when my
+collegues find bugs, they are not happy to depend on my help. They
+want to do the debugging themselves. As they don't know Cython and are
+uncomfortable with the compilation issues, I decided to provide two
+versions of my code, one in pure python and another in Cython. Of
+course maintaining two versions of my functions is not an advisable
+approach. Using cython pure python mode is not an option since the
+code needs advanced cython capabilities.
 
-    $ python test.py 5000
-    [...]
-    n = 5000 f = 131250000.0 use_cython = False time: 11.799
-    n = 5000 f = 131250000.0 use_cython = True time: 3.868s
-
-#. Running for a second time, code already compiled.::
-
-    $ python test.py 5000
-    [...]
-    n = 5000 f = 131250000.0 use_cython = False time: 11.687s
-    n = 5000 f = 131250000.0 use_cython = True time: 0.172s
-
-  This means that the compilation takes 3s.
-
-#. Commenting out the pyximport line in pyorcy.py::
-
-    $ python test.py 5000
-    n = 5000 f = 131250000.0 use_cython = False time: 11.559s
-    n = 5000 f = 131250000.0 use_cython = True time: 0.032s
-
-  This means that the pyximport check takes 0.14s.
+With pyorcy the user can then add a ``pyorcy.USE_CYTHON = False``
+before the function call that they want to debug and proceed the
+debugging in the pure python version, being able to add prints and
+pbd without having to recompile, nor having to learn cython.
