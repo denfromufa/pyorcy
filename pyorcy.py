@@ -2,6 +2,8 @@ from __future__ import print_function
 import sys
 import re
 import os
+import importlib
+import inspect
 import pyximport; pyximport.install()
 
 USE_CYTHON = True
@@ -37,14 +39,24 @@ def extract_cython(path_in, force=False, debug=True):
                 line = re.sub(r'#c ', '', line)
             fobj.write(line + '\n')
 
+def import_module(name):
+    # XXX: not sure this covers all import possibilities offered by python2
+    # and python3
+    # XXX: is there a cleaner system?
+    path = name.split('.')
+    package = '.'.join(path[:-1])
+    name_last = path[-1]
+    return importlib.import_module(name_last, package)
+
 def cythonize(func):
     "function decorator for triggering the pyorcy mechanism"
+    # inspect usage found in http://stackoverflow.com/a/7151403
     if COMPILE:
-        module_name = func.__module__
-        module = __import__(module_name)
-        path = module.__file__.replace('.pyc', '.py')
+        path = inspect.getframeinfo(inspect.getouterframes(
+            inspect.currentframe())[1][0])[0]
         extract_cython(path, debug=DEBUG)
-        module = __import__(module_name + '_cy')
+        module_name = func.__module__ + '_cy'
+        module = import_module(module_name)
         func_cy = getattr(module, func.__name__)
     else:
         func_cy = None
