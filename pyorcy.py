@@ -54,6 +54,10 @@ def cythonize(func):
     if COMPILE:
         path = inspect.getframeinfo(inspect.getouterframes(
             inspect.currentframe())[1][0])[0]
+        if 'pyximport' in path:
+            # XXX: workaround for an unexpetected pyximport side effect: find
+            # a cleaner solution!
+            return func
         extract_cython(path, debug=DEBUG)
         module_name = func.__module__ + '_cy'
         module = import_module(module_name)
