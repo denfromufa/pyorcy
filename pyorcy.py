@@ -22,7 +22,7 @@ def extract_cython(path_in, force=False, debug=True):
     
     path_out = path_in.replace('.py', '_cy.pyx')
     if (not force and os.path.exists(path_out)
-        and os.path.getctime(path_out) >= os.path.getctime(path_in)):
+        and os.path.getmtime(path_out) >= os.path.getmtime(path_in)):
         if debug:
             print("File %s already exists" % path_out)
         return
