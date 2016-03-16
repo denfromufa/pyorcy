@@ -46,6 +46,9 @@ def import_module(name):
     path = name.split('.')
     package = '.'.join(path[:-1])
     name_last = path[-1]
+    if package:
+        # when there is a package, importlib fails without this preceding dot
+        name_last = '.' + name_last
     return importlib.import_module(name_last, package)
 
 def cythonize(func):
