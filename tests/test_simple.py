@@ -11,7 +11,7 @@ def main():
     t2 = timef(n, True)
     if t2 != 0:
         print("speedup: %.1f" % (t1 / t2))
-    
+
 def timef(n, use_cython):
     pyorcy.USE_CYTHON = use_cython
     t1 = time()
