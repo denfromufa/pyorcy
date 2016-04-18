@@ -7,9 +7,8 @@ with open('README.rst') as f:
 with open('pyorcy/version.py') as f:
     exec(f.read())
 
-install_requires = [
-    'cython>=0.23.0',
-]
+with open('requirements.txt') as f:
+    install_requires = f.read().splitlines()
 
 tests_require = [
     'nose',
