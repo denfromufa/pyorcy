@@ -36,7 +36,7 @@ file is two ways:
 Getting started
 ---------------
 
-In a command prompt, stay in the main pyorcy directory and type::
+In the command prompt, stay in the main pyorcy directory and type::
 
   $ PYTHONPATH=. examples/compute_main.py 1000
   Creating .../pyorcy/examples/compute_function_cy.pyx
@@ -53,15 +53,25 @@ already compiled and execution is immediate::
   n = 1000 f = 5250000.0 use_cython = True time: 0.001s
   speedup: 314.2
 
+Testing
+-------
+
+Before installing, you can test the package like this::
+
+  $ py.test pyorcy
+
+And after installing with::
+
+  $ python -c"import pyorcy; pyorcy.test()
 
 Installation
 ------------
 
-Just install as usual::
+If you have downloaded the sources, just install as usual::
 
-  $ python setuup.py install
+  $ python setup.py install
 
-or::
+or just install from PyPI directly::
 
   $ pip install pyorcy
 

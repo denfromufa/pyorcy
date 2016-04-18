@@ -86,5 +86,11 @@ def cythonize(func):
     return wrapper
 
 
+def test():
+    "Programatically run tests."
+    import pytest
+    sys.exit(pytest.main("tests"))
+
+
 if __name__ == '__main__':
     extract_cython(sys.argv[1])
