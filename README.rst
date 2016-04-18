@@ -10,8 +10,9 @@ Pyorcy has 2 purposes:
 
 #. Launch the automatic compilation, triggered by a function decorator.
 
-Check the examples: ``test.py`` and ``compute.py`` for a quick understanding
-the mechanism.
+Check the examples: ``examples/compute_main.py`` and
+``examples/compute_function.py`` for a quick understanding the
+mechanism.
 
 Note that pyorcy provides a decorator mechanism which is similar to what numba
 offers.
@@ -35,21 +36,36 @@ file is two ways:
 Getting started
 ---------------
 
-In a command prompt, change into the pyorcy directory and type::
+In a command prompt, stay in the main pyorcy directory and type::
 
- python test.py 5000
+  $ PYTHONPATH=. examples/compute_main.py 1000
+  Creating .../pyorcy/examples/compute_function_cy.pyx
+  n = 1000 f = 5250000.0 use_cython = False time: 0.373s
+  n = 1000 f = 5250000.0 use_cython = True time: 0.001s
+  speedup: 311.9
 
 Type the command once again to see what happens when the cython code is
-already compiled.
+already compiled and execution is immediate::
+
+  $ PYTHONPATH=. python examples/compute_main.py 1000
+  File .../pyorcy/examples/compute_function_cy.pyx already exists
+  n = 1000 f = 5250000.0 use_cython = False time: 0.375s
+  n = 1000 f = 5250000.0 use_cython = True time: 0.001s
+  speedup: 314.2
+
 
 Installation
 ------------
 
-Just put ``pyorcy.py`` somewhere accessible to your python path, so
-that you can do::
+Just install as usual::
 
- import pyorcy
+  $ python setuup.py install
 
+or::
+
+  $ pip install pyorcy
+
+and you are ready to go.
 
 Troubleshooting
 ---------------
