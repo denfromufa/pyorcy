@@ -10,9 +10,8 @@ with open('pyorcy/version.py') as f:
 with open('requirements.txt') as f:
     install_requires = f.read().splitlines()
 
-tests_require = [
-    'nose',
-]
+with open('test_requirements.txt') as f:
+    tests_require = f.read().splitlines()
 
 setup(
     name = "pyorcy",
