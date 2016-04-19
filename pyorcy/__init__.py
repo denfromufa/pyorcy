@@ -1,4 +1,6 @@
 from __future__ import print_function
+from __future__ import absolute_import
+
 import sys
 import re
 import os
@@ -6,7 +8,10 @@ import importlib
 import inspect
 import pyximport; pyximport.install()
 
-USE_CYTHON = True
+from .version import __version__
+
+
+USE_CYTHON = False
 COMPILE = True
 DEBUG = True
 

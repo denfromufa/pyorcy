@@ -5,6 +5,7 @@ import pyorcy
 
 from compute_function import f
 
+
 def main():
     n = int(sys.argv[1])
     t1 = timef(n, use_cython=False)
