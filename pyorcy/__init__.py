@@ -10,7 +10,7 @@ import pyximport; pyximport.install()
 
 from .version import __version__
 
-
+# Operation defaults
 USE_CYTHON = False
 COMPILE = True
 DEBUG = True
