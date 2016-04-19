@@ -38,7 +38,7 @@ Getting started
 
 In the command prompt, stay in the main pyorcy directory and type::
 
-  $ PYTHONPATH=. examples/compute_main.py 1000
+  $ PYTHONPATH=. python examples/compute_main.py 1000
   Creating .../pyorcy/examples/compute_function_cy.pyx
   n = 1000 f = 5250000.0 use_cython = False time: 0.373s
   n = 1000 f = 5250000.0 use_cython = True time: 0.001s

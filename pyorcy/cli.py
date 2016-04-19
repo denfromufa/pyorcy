@@ -28,6 +28,7 @@ def create_parser():
     parser.add_argument('-m', '--module',
                         type=str,
                         default=None,
+                        required=True,
                         help="module to run")
     parser.add_argument('mod_args', nargs=argparse.REMAINDER)
     mode_group = parser.add_mutually_exclusive_group(required=False)
