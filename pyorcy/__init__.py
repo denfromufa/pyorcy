@@ -61,10 +61,12 @@ def cythonize(func):
     "Function decorator for triggering the pyorcy mechanism"
     # inspect usage found in http://stackoverflow.com/a/7151403
     if USE_CYTHON:
+        if VERBOSE:
+            print("Running via Cython mode")
         path = inspect.getframeinfo(inspect.getouterframes(
             inspect.currentframe())[1][0])[0]
         if 'pyximport' in path:
-            # XXX: workaround for an unexpetected pyximport side effect: find
+            # XXX: workaround for an unexpected pyximport side effect: find
             # a cleaner solution!
             return func
         extract_cython(path, verbose=VERBOSE)
@@ -72,6 +74,8 @@ def cythonize(func):
         module = import_module(module_name)
         func_cy = getattr(module, func.__name__)
     else:
+        if VERBOSE:
+            print("Running via Python mode")
         func_cy = None
     def wrapper(*arg, **kw):
         if USE_CYTHON:
