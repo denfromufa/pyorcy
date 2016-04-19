@@ -16,7 +16,7 @@ with open('requirements_tests.txt') as f:
 setup(
     name = "pyorcy",
     version = __version__,
-    packages = ['pyorcy'],
+    packages = ['pyorcy', 'pyorcy.tests'],
     entry_points = {
         'console_scripts' : [
             'pyorcy = pyorcy.cli:main',
@@ -46,5 +46,4 @@ setup(
                    'Programming Language :: Python :: 3.4',
                    'Programming Language :: Python :: 3.5',
                   ],
-
 )

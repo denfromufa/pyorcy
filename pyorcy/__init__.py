@@ -87,7 +87,7 @@ def cythonize(func):
 def test():
     "Programatically run tests."
     import pytest
-    sys.exit(pytest.main("tests"))
+    sys.exit(pytest.main())
 
 
 if __name__ == '__main__':
