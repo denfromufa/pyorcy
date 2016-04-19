@@ -25,6 +25,7 @@ is to have a speedup is decorated with the @cythonize decorator.
 Something like this:
 
 .. code-block:: python
+
   import pyorcy
   import numpy as np
   #c cimport cython
@@ -108,6 +109,7 @@ Programmatic approach
 With the `f()` function above, use:
 
 .. code-block:: python
+
   import pyorcy
   from compute_function import f
 
