@@ -46,8 +46,11 @@ def main():
     parser = create_parser()
     args = parser.parse_args()
 
+    # Arguments that drive the behaviour of pyorcy
     if args.cython:
         pyorcy.USE_CYTHON = True
+    if args.verbose:
+        pyorcy.VERBOSE = True
 
     # Add the location of the module to the sys.path
     sys.path.append(os.path.dirname(args.module))

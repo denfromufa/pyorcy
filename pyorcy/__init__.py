@@ -12,19 +12,13 @@ from .version import __version__
 
 # Operation defaults
 USE_CYTHON = False
-COMPILE = True
-DEBUG = True
+VERBOSE = False
 
 
-def extract_cython(path_in, force=False, debug=True):
+def extract_cython(path_in, force=False, verbose=True):
     """Extract cython code from the .py file and create a _cy.pyx file.
 
-    The script is called by the cythonize decorator. It can also be
-    used directly when launching the pyorcy.py script with a sys.argv
-    argument. This can be handy for debugging the cython code without
-    having to use the whole machinery.  In the user can create
-    standard cython setup.py and add a call to this function.
-
+    The script is called by the cythonize decorator.
     """
 
     if not path_in.endswith('.py'):
@@ -33,11 +27,11 @@ def extract_cython(path_in, force=False, debug=True):
     path_out = path_in.replace('.py', '_cy.pyx')
     if (not force and os.path.exists(path_out)
         and os.path.getmtime(path_out) >= os.path.getmtime(path_in)):
-        if debug:
+        if verbose:
             print("File %s already exists" % path_out)
         return
 
-    if debug:
+    if verbose:
         print("Creating %s" % path_out)
     with open(path_out, 'w') as fobj:
         for line in open(path_in):
@@ -66,14 +60,14 @@ def import_module(name):
 def cythonize(func):
     "Function decorator for triggering the pyorcy mechanism"
     # inspect usage found in http://stackoverflow.com/a/7151403
-    if COMPILE:
+    if USE_CYTHON:
         path = inspect.getframeinfo(inspect.getouterframes(
             inspect.currentframe())[1][0])[0]
         if 'pyximport' in path:
             # XXX: workaround for an unexpetected pyximport side effect: find
             # a cleaner solution!
             return func
-        extract_cython(path, debug=DEBUG)
+        extract_cython(path, verbose=VERBOSE)
         module_name = func.__module__ + '_cy'
         module = import_module(module_name)
         func_cy = getattr(module, func.__name__)
