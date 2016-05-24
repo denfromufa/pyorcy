@@ -8,14 +8,12 @@ Pyorcy has 2 purposes:
    be done with cython pure python mode, but unlike pyorcy this approach does
    not offer you all the cython capabilities.
 
-#. Launch the automatic compilation, triggered by a function decorator.
+#. Launch the automatic compilation, triggered by a function decorator. This a 
+   mechanism which is similar to what numba offers. 
 
 Check the examples: ``examples/compute_main.py`` and
 ``examples/compute_function.py`` for a quick understanding the
 mechanism.
-
-Note that pyorcy provides a decorator mechanism which is similar to what numba
-offers.
 
 Mechanism
 ---------
