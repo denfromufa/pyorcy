@@ -1,10 +1,6 @@
 - Compile only when the function is requested (so that the pure python
   development cycle does not get an annoying compilation step).
-- Add a setup.py install.
-- Add unit tests.
-- Replace the clean script by setup.py clean.
-- find a cleaner import mechanism (in particular without the "if 'pyximport'")
 
 hesitations
-- Should we use lower case constants instead (USE_CYTHON, COMPILE, etc)?
+- find a cleaner import mechanism (in particular without the "if 'pyximport'")
 - Try to put the .pyx file together with the built files in ~/.pyxbld?
