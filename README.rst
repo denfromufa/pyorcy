@@ -10,8 +10,9 @@ Pyorcy has 2 purposes:
 
 #. Launch the automatic compilation, triggered by a function decorator.
 
-Check the examples: ``test.py`` and ``compute.py`` for a quick understanding
-the mechanism.
+Check the examples: ``examples/compute_main.py`` and
+``examples/compute_function.py`` for a quick understanding the
+mechanism.
 
 Note that pyorcy provides a decorator mechanism which is similar to what numba
 offers.
@@ -21,35 +22,149 @@ Mechanism
 
 The user writes a python file which is the module. The function which
 is to have a speedup is decorated with the @cythonize decorator.
+Something like this:
 
-A cython (``.pyx``) file is extracted from the python file (cf. function
-extract_cython in ``pyorcy.py``).
+.. code-block:: python
 
-This extracted ``.pyx`` file will differ from the corresponding ``.py``
+  import pyorcy
+  import numpy as np
+  #c cimport cython
+
+  def value(i, j, price, amount): #p
+  #c @cython.boundscheck(False)
+  #c cdef double value(int i, int j, double[:] price, double[:] amount):
+      #c cdef int a, p
+      #c cdef double v
+      v = price[i] * amount[j]
+      return v
+
+  @pyorcy.cythonize #p
+  def f(n, m): #p
+  #c def f(int n, int m):
+      #c cdef int i, j
+      #c cdef double v
+      #c cdef double[:] price
+      #c cdef double[:] amount
+      price = np.linspace(1, 2, n)
+      amount = np.linspace(3, 4, m)
+      v = 0
+      for i in range(n):
+          for j in range(m):
+              v += value(i, j, price, amount)
+      return v
+
+A cython (``.pyx``) file is extracted from the python file.  This
+extracted ``.pyx`` file will differ from the corresponding ``.py``
 file is two ways:
 
 - The comments starting with '#c ' are uncommented.
-
 - The lines ending with '#p' are commented out.
 
 Getting started
 ---------------
 
-In a command prompt, change into the pyorcy directory and type::
+Via the pycorcy utility
+.......................
 
- python test.py 5000
+The easiest way to use the pyorcy package is via its `pyorcy` utility::
+
+  $ time pyorcy -v --python --module examples/module_main.py 1000
+  Running via Python mode
+  n = 1000 f = 5250000.0 time: 0.528s
+
+  real    0m0.748s
+  user    0m0.720s
+  sys     0m0.024s
+
+Now, using Cython::
+
+  $ time pyorcy -v --cython --module examples/module_main.py 1000
+  Running via Cython mode
+  Creating examples/compute_function_cy.pyx
+  n = 1000 f = 5250000.0 time: 0.001s
+
+  real    0m3.864s
+  user    0m3.752s
+  sys     0m0.088s
+
+Although we see that the time for the computation is very small, the
+global execution time for the script is quite large.  This is due to
+the compilation time (.pyx -> .c creation + C compiling time).
+However, the Cython version and the compiled extension are cached so
+that next time that the module is executed the cached versions are
+used instead::
+
+  $ time pyorcy -v --cython --module examples/module_main.py 1000
+  Running via Cython mode
+  File examples/compute_function_cy.pyx already exists
+  n = 1000 f = 5250000.0 time: 0.001s
+
+  real    0m0.264s
+  user    0m0.240s
+  sys     0m0.020s
+
+Programmatic approach
+.....................
+
+With the `f()` function above, use:
+
+.. code-block:: python
+
+  import pyorcy
+  from compute_function import f
+
+  def timef(n, use_cython):
+    pyorcy.USE_CYTHON = use_cython
+    pyorcy.VERBOSE = True
+    v = f(n, n)
+    return v
+
+So, basically import the `pyorcy` package and then set the
+`USE_CYTHON` and `VERBOSE` module variables to your taste.  Easy uh?
+
+There is a script in the examples/ folder that uses this technique.
+Go to the main pyorcy directory and type::
+
+  $ PYTHONPATH=. python examples/compute_main.py 1000
+  Creating .../pyorcy/examples/compute_function_cy.pyx
+  n = 1000 f = 5250000.0 use_cython = False time: 0.373s
+  n = 1000 f = 5250000.0 use_cython = True time: 0.001s
+  speedup: 311.9
 
 Type the command once again to see what happens when the cython code is
-already compiled.
+already compiled and execution is immediate::
+
+  $ PYTHONPATH=. python examples/compute_main.py 1000
+  File .../pyorcy/examples/compute_function_cy.pyx already exists
+  n = 1000 f = 5250000.0 use_cython = False time: 0.375s
+  n = 1000 f = 5250000.0 use_cython = True time: 0.001s
+  speedup: 314.2
+
+Have a look at the examples/ directory for more hints on using pyorcy.
+
+Testing
+-------
+
+Before installing, you can test the package like this::
+
+  $ py.test pyorcy
+
+And after installing with::
+
+  $ python -c"import pyorcy; pyorcy.test()
 
 Installation
 ------------
 
-Just put ``pyorcy.py`` somewhere accessible to your python path, so
-that you can do::
+If you have downloaded the sources, just install as usual::
 
- import pyorcy
+  $ python setup.py install
 
+or just install from PyPI directly::
+
+  $ pip install pyorcy
+
+and you are ready to go.
 
 Troubleshooting
 ---------------
