@@ -1,8 +1,10 @@
 from __future__ import print_function
+from __future__ import absolute_import
+
 
 from time import time
 import pyorcy
-from compute import f
+from .compute import f
 
 
 def timef(n, use_cython):
