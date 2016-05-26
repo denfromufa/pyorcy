@@ -106,7 +106,7 @@ Via the pycorcy utility
 There is another way to use the pyorcy package via its `pyorcy`
 utility::
 
-  $ time pyorcy -v --python --module examples/module_main.py 1000
+  $ time pyorcy -v --python examples/module_main.py 1000
   Running via Python mode
   n = 1000 f = 5250000.0 time: 0.528s
 
@@ -116,7 +116,7 @@ utility::
 
 Now, using Cython::
 
-  $ time pyorcy -v --cython --module examples/module_main.py 1000
+  $ time pyorcy -v --cython examples/module_main.py 1000
   Running via Cython mode
   Creating examples/compute_function_cy.pyx
   n = 1000 f = 5250000.0 time: 0.001s
@@ -132,7 +132,7 @@ However, the Cython version and the compiled extension are cached so
 that next time that the module is executed the cached versions are
 used instead::
 
-  $ time pyorcy -v --cython --module examples/module_main.py 1000
+  $ time pyorcy -v --cython examples/module_main.py 1000
   Running via Cython mode
   File examples/compute_function_cy.pyx already exists
   n = 1000 f = 5250000.0 time: 0.001s
@@ -152,7 +152,8 @@ Before installing, you can test the package like this::
 
   $ py.test pyorcy
 
-And after installing with::
+And after installing with (although this might fail if you install as
+root and run tests as a regular user)::
 
   $ python -c"import pyorcy; pyorcy.test()
 

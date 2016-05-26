@@ -34,11 +34,7 @@ def create_parser():
                             action='store_true',
                             default=True,
                             help='use Cython for evaluating function')
-    parser.add_argument('-m', '--module',
-                        type=str,
-                        default=None,
-                        required=True,
-                        help="module to run")
+    parser.add_argument('MODULE', nargs=1)
     parser.add_argument('mod_args', nargs=argparse.REMAINDER)
     return parser
 
@@ -55,13 +51,14 @@ def main():
         pyorcy.VERBOSE = True
 
     # Add the location of the module to the sys.path
-    sys.path.append(os.path.dirname(args.module))
+    module = args.MODULE[0]
+    sys.path.append(os.path.dirname(module))
 
     # Add remaining parameters in globals
     init_globals = {'__args__': args.mod_args}
 
     # Execute the module
-    runpy.run_path(args.module, init_globals=init_globals, run_name="__main__")
+    runpy.run_path(module, init_globals=init_globals, run_name="__main__")
 
 
 if __name__ == "__main__":
