@@ -7,11 +7,11 @@ with open('README.rst') as f:
 with open('pyorcy/version.py') as f:
     exec(f.read())
 
-with open('requirements.txt') as f:
-    install_requires = f.read().splitlines()
+# with open('requirements.txt') as f:
+#     install_requires = f.read().splitlines()
 
-with open('requirements_tests.txt') as f:
-    tests_require = f.read().splitlines()
+# with open('requirements_test.txt') as f:
+#     tests_require = f.read().splitlines()
 
 setup(
     name = "pyorcy",
@@ -29,9 +29,9 @@ setup(
     license = "MIT",
     keywords = ('compression', 'applied information theory'),
     url = "https://github.com/blosc/bloscpack",
-    install_requires = install_requires,
-    extras_require = dict(tests=tests_require),
-    tests_require = tests_require,
+    # install_requires = install_requires,
+    # extras_require = dict(tests=tests_require),
+    # tests_require = tests_require,
     classifiers = ['Development Status :: 3 - Alpha',
                    'Environment :: Console',
                    'License :: OSI Approved :: MIT License',
