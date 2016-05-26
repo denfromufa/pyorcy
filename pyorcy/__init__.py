@@ -59,17 +59,18 @@ def import_module(name):
 
 def cythonize(func):
     "Function decorator for triggering the pyorcy mechanism."
-    # inspect usage found in http://stackoverflow.com/a/7151403
-    path = inspect.getframeinfo(inspect.getouterframes(
-        inspect.currentframe())[1][0])[0]
-    if 'pyximport' in path:
-        # XXX: workaround for an unexpected pyximport side effect: find
-        # a cleaner solution!
-        return func
-    extract_cython(path, verbose=VERBOSE)
-    module_name = func.__module__ + '_cy'
-    module = import_module(module_name)
-    func_cy = getattr(module, func.__name__)
+    if USE_CYTHON:
+        # inspect usage found in http://stackoverflow.com/a/7151403
+        path = inspect.getframeinfo(inspect.getouterframes(
+            inspect.currentframe())[1][0])[0]
+        if 'pyximport' in path:
+            # XXX: workaround for an unexpected pyximport side effect: find
+            # a cleaner solution!
+            return func
+        extract_cython(path, verbose=VERBOSE)
+        module_name = func.__module__ + '_cy'
+        module = import_module(module_name)
+        func_cy = getattr(module, func.__name__)
 
     def wrapper(*arg, **kw):
         if USE_CYTHON:
