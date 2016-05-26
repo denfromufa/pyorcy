@@ -6,9 +6,11 @@ import re
 import os
 import importlib
 import inspect
-import pyximport; pyximport.install()
-
+import pyximport
 from .version import __version__
+
+pyximport.install()
+
 
 # Operation defaults
 USE_CYTHON = True
@@ -25,8 +27,8 @@ def extract_cython(path_in, force=False, verbose=True):
         raise ValueError("%s is not a python file" % path_in)
 
     path_out = path_in.replace('.py', '_cy.pyx')
-    if (not force and os.path.exists(path_out)
-        and os.path.getmtime(path_out) >= os.path.getmtime(path_in)):
+    if (not force and os.path.exists(path_out) and
+        os.path.getmtime(path_out) >= os.path.getmtime(path_in)):
         if verbose:
             print("File %s already exists" % path_out)
         return

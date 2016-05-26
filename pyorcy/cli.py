@@ -17,10 +17,11 @@ def create_parser():
     parser = argparse.ArgumentParser(
             description='command line utility for the pyorcy package')
 
-    ## print version of pyorcy and cython itself
+    # print version of pyorcy and cython itself
     version_str = ("pyorcy: {} cython: {}".format(
         pyorcy.__version__, cython.__version__))
-    parser.add_argument('-V', '--version', action='version', version=version_str)
+    parser.add_argument('-V', '--version', action='version',
+                        version=version_str)
     parser.add_argument('-v', '--verbose',
                         action='store_true',
                         default=False,

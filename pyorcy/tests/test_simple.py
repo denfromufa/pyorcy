@@ -12,6 +12,7 @@ def timef(n, use_cython):
     delta = time() - t1
     return delta, v
 
+
 def test_compute():
     n = 1000
     t1, v1 = timef(n, False)
