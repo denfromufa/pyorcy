@@ -4,12 +4,12 @@ pyorcy
 
 Pyorcy has 2 purposes:
 
-#. Allow the mix of python and cython code in a single file. This can also
-   be done with cython pure python mode, but unlike pyorcy this approach does
-   not offer you all the cython capabilities.
+#. Allow the mix of python and cython code in a single file. This can
+   also be done with cython pure python mode, but unlike pyorcy this
+   approach does not offer you all the cython capabilities.
 
-#. Launch the automatic compilation, triggered by a function decorator. This a 
-   mechanism which is similar to what numba offers. 
+#. Launch the automatic compilation, triggered by a function
+   decorator. This a mechanism which is similar to what numba offers.
 
 Check the examples: ``examples/compute_main.py`` and
 ``examples/compute_function.py`` for a quick understanding the
@@ -61,46 +61,6 @@ file is two ways:
 Getting started
 ---------------
 
-Via the pycorcy utility
-.......................
-
-The easiest way to use the pyorcy package is via its `pyorcy` utility::
-
-  $ time pyorcy -v --python --module examples/module_main.py 1000
-  Running via Python mode
-  n = 1000 f = 5250000.0 time: 0.528s
-
-  real    0m0.748s
-  user    0m0.720s
-  sys     0m0.024s
-
-Now, using Cython::
-
-  $ time pyorcy -v --cython --module examples/module_main.py 1000
-  Running via Cython mode
-  Creating examples/compute_function_cy.pyx
-  n = 1000 f = 5250000.0 time: 0.001s
-
-  real    0m3.864s
-  user    0m3.752s
-  sys     0m0.088s
-
-Although we see that the time for the computation is very small, the
-global execution time for the script is quite large.  This is due to
-the compilation time (.pyx -> .c creation + C compiling time).
-However, the Cython version and the compiled extension are cached so
-that next time that the module is executed the cached versions are
-used instead::
-
-  $ time pyorcy -v --cython --module examples/module_main.py 1000
-  Running via Cython mode
-  File examples/compute_function_cy.pyx already exists
-  n = 1000 f = 5250000.0 time: 0.001s
-
-  real    0m0.264s
-  user    0m0.240s
-  sys     0m0.020s
-
 Programmatic approach
 .....................
 
@@ -139,6 +99,51 @@ already compiled and execution is immediate::
   speedup: 314.2
 
 Have a look at the examples/ directory for more hints on using pyorcy.
+
+Via the pycorcy utility
+.......................
+
+There is another way to use the pyorcy package via its `pyorcy`
+utility::
+
+  $ time pyorcy -v --python --module examples/module_main.py 1000
+  Running via Python mode
+  n = 1000 f = 5250000.0 time: 0.528s
+
+  real    0m0.748s
+  user    0m0.720s
+  sys     0m0.024s
+
+Now, using Cython::
+
+  $ time pyorcy -v --cython --module examples/module_main.py 1000
+  Running via Cython mode
+  Creating examples/compute_function_cy.pyx
+  n = 1000 f = 5250000.0 time: 0.001s
+
+  real    0m3.864s
+  user    0m3.752s
+  sys     0m0.088s
+
+Although we see that the time for the computation is very small, the
+global execution time for the script is quite large.  This is due to
+the compilation time (.pyx -> .c creation + C compiling time).
+However, the Cython version and the compiled extension are cached so
+that next time that the module is executed the cached versions are
+used instead::
+
+  $ time pyorcy -v --cython --module examples/module_main.py 1000
+  Running via Cython mode
+  File examples/compute_function_cy.pyx already exists
+  n = 1000 f = 5250000.0 time: 0.001s
+
+  real    0m0.264s
+  user    0m0.240s
+  sys     0m0.020s
+
+This utility allows to execute complete modules with the @cythonize
+decorators in either '--python' (useful for debugging) or '--cython'
+mode (the default).
 
 Testing
 -------
