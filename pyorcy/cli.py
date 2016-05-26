@@ -25,21 +25,21 @@ def create_parser():
                         action='store_true',
                         default=False,
                         help='be verbose about actions')
+    mode_group = parser.add_mutually_exclusive_group(required=False)
+    mode_group.add_argument('-p', '--python',
+                            action='store_true',
+                            default=False,
+                            help='use Python for evaluating function')
+    mode_group.add_argument('-c', '--cython',
+                            action='store_true',
+                            default=True,
+                            help='use Cython for evaluating function')
     parser.add_argument('-m', '--module',
                         type=str,
                         default=None,
                         required=True,
                         help="module to run")
     parser.add_argument('mod_args', nargs=argparse.REMAINDER)
-    mode_group = parser.add_mutually_exclusive_group(required=False)
-    mode_group.add_argument('-p', '--python',
-                            action='store_true',
-                            default=True,
-                            help='use Python for evaluating function')
-    mode_group.add_argument('-c', '--cython',
-                            action='store_true',
-                            default=False,
-                            help='use Cython for evaluating function')
     return parser
 
 
@@ -48,8 +48,9 @@ def main():
     args = parser.parse_args()
 
     # Arguments that drive the behaviour of pyorcy
-    if args.cython:
-        pyorcy.USE_CYTHON = True
+    pyorcy.USE_CYTHON = True
+    if args.python:
+        pyorcy.USE_CYTHON = False
     if args.verbose:
         pyorcy.VERBOSE = True
 

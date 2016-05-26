@@ -11,7 +11,7 @@ import pyximport; pyximport.install()
 from .version import __version__
 
 # Operation defaults
-USE_CYTHON = False
+USE_CYTHON = True
 VERBOSE = False
 
 
