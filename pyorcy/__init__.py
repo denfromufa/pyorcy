@@ -45,14 +45,12 @@ def extract_cython(path_in, force=False, verbose=True):
 
 
 def import_module(name):
-    # XXX: not sure this covers all import possibilities offered by python2
-    # and python3
-    # XXX: is there a cleaner system?
+    """Import a Cython module via pyximport machinery."""
     path = name.split('.')
     package = '.'.join(path[:-1])
     name_last = path[-1]
     if package:
-        # when there is a package, importlib fails without this preceding dot
+        # when there is a package, let's add a preceding dot (absolute_import)
         name_last = '.' + name_last
     return importlib.import_module(name_last, package)
 
