@@ -8,8 +8,8 @@ python:
 sudo: false
 
 install:
+  - pip install --upgrade pip
   - pip install cython numpy pytest
-  - pip install .
 
 script:
   - py.test pyorcy
