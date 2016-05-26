@@ -17,7 +17,6 @@ def f(n, m): #p
     #c cdef double v
     #c cdef double[:] price
     #c cdef double[:] amount
-    #c print("Hola!")
     price = np.linspace(1, 2, n)
     amount = np.linspace(3, 4, m)
     v = 0
