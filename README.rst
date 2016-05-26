@@ -2,18 +2,23 @@
 pyorcy
 ======
 
+.. image:: https://travis-ci.org/markolopa/pyorcy.svg?branch=master
+    :target: https://travis-ci.org/marklopa/pyorcy
+
+
 Pyorcy has 2 purposes:
 
 #. Allow the mix of python and cython code in a single file. This can
-   also be done with cython pure python mode, but unlike pyorcy this
-   approach does not offer you all the cython capabilities.
+   also be done with cython's "pure python" mode, but with import
+   limitations. pyorcy gives you the full cython super-powers.
 
-#. Launch the automatic compilation, triggered by a function
-   decorator. This a mechanism which is similar to what numba offers.
+#. Launch an automatic compilation, triggered by a function
+   decorator. This mechanism is similar to what numba offers.
 
-Check the examples: ``examples/compute_main.py`` and
-``examples/compute_function.py`` for a quick understanding the
-mechanism.
+So basically, you can develop and debug using the python mode.  When
+you are happy with your function, then you just annotate the variables
+and add the decorator for automatic Cython code generation and
+compilation.  Simple.
 
 Mechanism
 ---------
@@ -58,6 +63,11 @@ file is two ways:
 - The comments starting with '#c ' are uncommented.
 - The lines ending with '#p' are commented out.
 
+You can check a complete example here:
+`examples/compute_main.py<https://github.com/markolopa/pyorcy/blob/master/examples/compute_main.py>`_
+and
+`examples/compute_function.py<https://github.com/markolopa/pyorcy/blob/master/examples/compute_function.py>`_.
+
 Getting started
 ---------------
 
@@ -71,7 +81,7 @@ With the `f()` function above, use:
   import pyorcy
   from compute_function import f
 
-  def timef(n, use_cython):
+  def execf(n, use_cython):
     pyorcy.USE_CYTHON = use_cython
     pyorcy.VERBOSE = True
     v = f(n, n)
