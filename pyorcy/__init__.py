@@ -6,12 +6,14 @@ import re
 import os
 import importlib
 import inspect
-import pyximport; pyximport.install()
-
+import pyximport
 from .version import __version__
 
+pyximport.install()
+
+
 # Operation defaults
-USE_CYTHON = False
+USE_CYTHON = True
 VERBOSE = False
 
 
@@ -25,8 +27,8 @@ def extract_cython(path_in, force=False, verbose=True):
         raise ValueError("%s is not a python file" % path_in)
 
     path_out = path_in.replace('.py', '_cy.pyx')
-    if (not force and os.path.exists(path_out)
-        and os.path.getmtime(path_out) >= os.path.getmtime(path_in)):
+    if (not force and os.path.exists(path_out) and
+        os.path.getmtime(path_out) >= os.path.getmtime(path_in)):
         if verbose:
             print("File %s already exists" % path_out)
         return
@@ -45,31 +47,26 @@ def extract_cython(path_in, force=False, verbose=True):
 
 
 def import_module(name):
-    # XXX: not sure this covers all import possibilities offered by python2
-    # and python3
-    # XXX: is there a cleaner system?
+    """Import a Cython module via pyximport machinery."""
     path = name.split('.')
     package = '.'.join(path[:-1])
     name_last = path[-1]
     if package:
-        # when there is a package, importlib fails without this preceding dot
+        # when there is a package, let's add a preceding dot (absolute_import)
         name_last = '.' + name_last
     return importlib.import_module(name_last, package)
 
 
 def cythonize(func):
     "Function decorator for triggering the pyorcy mechanism."
-    # inspect usage found in http://stackoverflow.com/a/7151403
-    path = inspect.getframeinfo(inspect.getouterframes(
-        inspect.currentframe())[1][0])[0]
-    if 'pyximport' in path:
-        # XXX: workaround for an unexpected pyximport side effect: find
-        # a cleaner solution!
-        return func
-    extract_cython(path, verbose=VERBOSE)
-    module_name = func.__module__ + '_cy'
-    module = import_module(module_name)
-    func_cy = getattr(module, func.__name__)
+    if USE_CYTHON:
+        # inspect usage found in http://stackoverflow.com/a/7151403
+        func_filepath = inspect.getframeinfo(inspect.getouterframes(
+            inspect.currentframe())[1][0])[0]
+        extract_cython(func_filepath, verbose=VERBOSE)
+        module_name = func.__module__ + '_cy'
+        module = import_module(module_name)
+        func_cy = getattr(module, func.__name__)
 
     def wrapper(*arg, **kw):
         if USE_CYTHON:

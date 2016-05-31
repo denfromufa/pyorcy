@@ -10,7 +10,7 @@ with open('pyorcy/version.py') as f:
 with open('requirements.txt') as f:
     install_requires = f.read().splitlines()
 
-with open('requirements_tests.txt') as f:
+with open('requirements_test.txt') as f:
     tests_require = f.read().splitlines()
 
 setup(
