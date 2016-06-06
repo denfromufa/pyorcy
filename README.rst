@@ -3,7 +3,7 @@ pyorcy
 ======
 
 .. image:: https://travis-ci.org/markolopa/pyorcy.svg?branch=master
-    :target: https://travis-ci.org/marklopa/pyorcy
+    :target: https://travis-ci.org/markolopa/pyorcy
 
 
 Pyorcy has 2 purposes:
