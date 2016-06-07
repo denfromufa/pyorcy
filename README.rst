@@ -63,10 +63,7 @@ file is two ways:
 - The comments starting with '#c ' are uncommented.
 - The lines ending with '#p' are commented out.
 
-You can check a complete example here:
-`examples/compute_main.py<https://github.com/markolopa/pyorcy/blob/master/examples/compute_main.py>`_
-and
-`examples/compute_function.py<https://github.com/markolopa/pyorcy/blob/master/examples/compute_function.py>`_.
+You can check a complete example here: `examples/compute_main.py <https://github.com/markolopa/pyorcy/blob/master/examples/compute_main.py>`_ and `examples/compute_function.py <https://github.com/markolopa/pyorcy/blob/master/examples/compute_function.py>`_.
 
 Installation
 ------------
@@ -75,6 +72,9 @@ Use pip::
 
   $ pip install pyorcy
 
+or download the sources and make the usual install command::
+
+  $ python setup.py install
 
 Getting started
 ---------------
@@ -174,19 +174,6 @@ And after installing with (although this might fail if you install as
 root and run tests as a regular user)::
 
   $ python -c"import pyorcy; pyorcy.test()
-
-Installation
-------------
-
-If you have downloaded the sources, just install as usual::
-
-  $ python setup.py install
-
-or just install from PyPI directly::
-
-  $ pip install pyorcy
-
-and you are ready to go.
 
 Troubleshooting
 ---------------
