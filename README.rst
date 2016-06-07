@@ -72,7 +72,7 @@ Use pip::
 
   $ pip install pyorcy
 
-or download the sources and make the usual install command::
+or download the sources and::
 
   $ python setup.py install
 
@@ -118,8 +118,8 @@ already compiled and execution is immediate::
 
 Have a look at the examples/ directory for more hints on using pyorcy.
 
-Via the pycorcy utility
-.......................
+Via the pyorcy utility
+......................
 
 There is another way to use the pyorcy package via its `pyorcy`
 utility::
