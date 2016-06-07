@@ -73,7 +73,8 @@ Installation
 
 Use pip::
 
-pip install pyorcy
+  pip install pyorcy
+
 
 Getting started
 ---------------
