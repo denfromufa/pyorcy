@@ -68,6 +68,13 @@ You can check a complete example here:
 and
 `examples/compute_function.py<https://github.com/markolopa/pyorcy/blob/master/examples/compute_function.py>`_.
 
+Installation
+------------
+
+Use pip::
+
+pip install pyorcy
+
 Getting started
 ---------------
 
